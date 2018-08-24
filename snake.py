@@ -6,30 +6,37 @@ def on_grid_random():
 	y = random.randint(0, 590)
 	return (x//10 * 10, y//10 * 10)
 
+def collision(point1, point2):
+	return ((point1[0] == point2[0]) and (point1[1] == point2[1]))
+
 UP = 0
 RIGHT = 1
 DOWN = 2
 LEFT = 3
 
+screen_size = 600
+
+white = (255,255,255)
+black = (0,0,0)
+red = (255,0,0)
+
 pygame.init()
-screen = pygame.display.set_mode((600, 600))
+screen = pygame.display.set_mode((screen_size, screen_size))
 pygame.display.set_caption('Snake')
 
 initial_snake = [(200, 200), (210, 200), (220, 200)]
 snake = list(initial_snake)
 snake_skin = pygame.Surface((10, 10))
-snake_skin.fill((255,255,255))
+snake_skin.fill(white)
 
 apple = pygame.Surface((10,10))
-apple.fill((255,0,0))
+apple.fill(red)
 apple_pos = on_grid_random()
 
 my_direction = LEFT
 
 clock = pygame.time.Clock()
 
-def collision(point1, point2):
-	return ((point1[0] == point2[0]) and (point1[1] == point2[1]))
 
 while True:
 
@@ -67,16 +74,16 @@ while True:
 
 	
 	if my_direction == UP:
-		snake[0] = (snake[0][0], (snake[0][1] - 10) % 600)
+		snake[0] = (snake[0][0], (snake[0][1] - 10) % screen_size)
 	if my_direction == DOWN:
-		snake[0] = (snake[0][0], (snake[0][1] + 10) % 600)
+		snake[0] = (snake[0][0], (snake[0][1] + 10) % screen_size)
 	if my_direction == LEFT:
-		snake[0] = ((snake[0][0] - 10) % 600, snake[0][1])
+		snake[0] = ((snake[0][0] - 10) % screen_size, snake[0][1])
 	if my_direction == RIGHT:
-		snake[0] = ((snake[0][0] + 10) % 600, snake[0][1])
+		snake[0] = ((snake[0][0] + 10) % screen_size, snake[0][1])
 
 
-	screen.fill((0,0,0))
+	screen.fill(black)
 	screen.blit(apple, apple_pos)
 	for pos in snake:
 		screen.blit(snake_skin, pos)
