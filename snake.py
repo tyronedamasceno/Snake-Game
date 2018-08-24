@@ -15,7 +15,8 @@ pygame.init()
 screen = pygame.display.set_mode((600, 600))
 pygame.display.set_caption('Snake')
 
-snake = [(200, 200), (210, 200), (220, 200)]
+initial_snake = [(200, 200), (210, 200), (220, 200)]
+snake = list(initial_snake)
 snake_skin = pygame.Surface((10, 10))
 snake_skin.fill((255,255,255))
 
@@ -38,23 +39,24 @@ while True:
 		if event.type == QUIT:
 			pygame.quit()
 		if event.type == KEYDOWN:
-			if event.key == K_UP:
+			if event.key == K_UP and my_direction != DOWN:
 				my_direction = UP
-			if event.key == K_DOWN:
+			if event.key == K_DOWN and my_direction != UP:
 				my_direction = DOWN
-			if event.key == K_LEFT:
+			if event.key == K_LEFT and my_direction != RIGHT:
 				my_direction = LEFT
-			if event.key == K_RIGHT:
+			if event.key == K_RIGHT and my_direction != LEFT:
 				my_direction = RIGHT	
-
-	#my_direction = random.randint(0, 4)
 
 	if (collision(snake[0], apple_pos)):
 		apple_pos = on_grid_random()
 		snake.append((0,0))
 
+
 	for i in range(len(snake) - 1, 0, -1):
 		snake[i] = (snake[i-1][0], snake[i-1][1])
+
+
 	
 	if my_direction == UP:
 		snake[0] = (snake[0][0], (snake[0][1] - 10) % 600)
@@ -64,7 +66,6 @@ while True:
 		snake[0] = ((snake[0][0] - 10) % 600, snake[0][1])
 	if my_direction == RIGHT:
 		snake[0] = ((snake[0][0] + 10) % 600, snake[0][1])
-
 
 
 	screen.fill((0,0,0))
