@@ -41,16 +41,24 @@ while True:
 		if event.type == KEYDOWN:
 			if event.key == K_UP and my_direction != DOWN:
 				my_direction = UP
-			if event.key == K_DOWN and my_direction != UP:
+			elif event.key == K_DOWN and my_direction != UP:
 				my_direction = DOWN
-			if event.key == K_LEFT and my_direction != RIGHT:
+			elif event.key == K_LEFT and my_direction != RIGHT:
 				my_direction = LEFT
-			if event.key == K_RIGHT and my_direction != LEFT:
+			elif event.key == K_RIGHT and my_direction != LEFT:
 				my_direction = RIGHT	
 
 	if (collision(snake[0], apple_pos)):
 		apple_pos = on_grid_random()
 		snake.append((0,0))
+
+
+	for i in range(1, len(snake)):
+		if (collision(snake[0], snake[i])):
+			snake = list(initial_snake)
+			apple_pos = on_grid_random()
+			my_direction = LEFT
+			break
 
 
 	for i in range(len(snake) - 1, 0, -1):
