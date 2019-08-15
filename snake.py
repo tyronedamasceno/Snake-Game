@@ -9,6 +9,9 @@ def on_grid_random():
 def collision(point1, point2):
 	return ((point1[0] == point2[0]) and (point1[1] == point2[1]))
 
+MAX_SPEED = 50
+speed = 10
+
 UP = 0
 RIGHT = 1
 DOWN = 2
@@ -40,7 +43,7 @@ clock = pygame.time.Clock()
 
 while True:
 
-	clock.tick(20)
+	clock.tick(speed)
 
 	for event in pygame.event.get():
 		if event.type == QUIT:
@@ -56,22 +59,20 @@ while True:
 				my_direction = RIGHT	
 
 	if (collision(snake[0], apple_pos)):
-		apple_pos = on_grid_random()
-		snake.append((0,0))
-
+			apple_pos = on_grid_random()
+			snake.append((0,0))
+			speed = min(speed+1, MAX_SPEED)
 
 	for i in range(1, len(snake)):
 		if (collision(snake[0], snake[i])):
 			snake = list(initial_snake)
 			apple_pos = on_grid_random()
 			my_direction = LEFT
+			speed = 10
 			break
-
 
 	for i in range(len(snake) - 1, 0, -1):
 		snake[i] = (snake[i-1][0], snake[i-1][1])
-
-
 	
 	if my_direction == UP:
 		snake[0] = (snake[0][0], (snake[0][1] - 10) % screen_size)
