@@ -11,6 +11,7 @@ def collision(point1, point2):
 
 MAX_SPEED = 50
 speed = 10
+points = 0
 
 UP = 0
 RIGHT = 1
@@ -22,6 +23,8 @@ screen_size = 600
 white = (255,255,255)
 black = (0,0,0)
 red = (255,0,0)
+green = (0, 255, 0)
+blue = (0, 0, 128)
 
 pygame.init()
 screen = pygame.display.set_mode((screen_size, screen_size))
@@ -40,6 +43,10 @@ my_direction = LEFT
 
 clock = pygame.time.Clock()
 
+font = pygame.font.Font('freesansbold.ttf', 16) 
+text = font.render('GeeksForGeeks', True, green, blue)
+text_rect = text.get_rect()
+text_rect.center = (500, 25)
 
 while True:
 
@@ -62,6 +69,7 @@ while True:
 			apple_pos = on_grid_random()
 			snake.append((0,0))
 			speed = min(speed+1, MAX_SPEED)
+			points += 1
 
 	for i in range(1, len(snake)):
 		if (collision(snake[0], snake[i])):
@@ -69,6 +77,7 @@ while True:
 			apple_pos = on_grid_random()
 			my_direction = LEFT
 			speed = 10
+						points = 0
 			break
 
 	for i in range(len(snake) - 1, 0, -1):
@@ -85,6 +94,8 @@ while True:
 
 
 	screen.fill(black)
+	text = font.render(f'points: {points}', True, green, blue)
+	screen.blit(text, text_rect)
 	screen.blit(apple, apple_pos)
 	for pos in snake:
 		screen.blit(snake_skin, pos)
